@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>무궁화 꽃이 피었습니다</title>
+  <style>
+    html, body, div {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f0f0;
+    }
+    /* #startButton {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 2;
+    } */
+    #startButton {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 2;
+      max-width: 50%;
+      max-height: 50%;
+    }
+    #imageContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    #imageContainer img.centered {
+      max-width: 50%;
+      max-height: 50%;
+      border: 10px solid rgb(124, 255, 141);
+      box-sizing: border-box;
+    }
+    #imageContainer img.fullscreen {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <input id="startButton" type="image" src="maskFinal.png" alt="Start Button">
+  <div id="imageContainer"></div>
+
+  <audio id="song" src="song.mp3"></audio>
+
+  <script>
+    const startButton = document.getElementById('startButton');
+    const imageContainer = document.getElementById('imageContainer');
+    const song = document.getElementById('song');
+
+    const imageBack = './assets/yg_backFinal.png';
+    const imageFront = './assets/yg_frontFinal.png';
+
+    let sequenceStarted = false;
+    let timeoutHandle;
+
+    function resetState() {
+      sequenceStarted = false;
+      clearTimeout(timeoutHandle);
+      song.pause();
+      song.currentTime = 0;
+      audio2.pause();
+      audio2.currentTime = 0;
+      imageContainer.innerHTML = '';
+      startButton.style.display = 'inline-block';
+      imageContainer.style.backgroundColor = 'white';
+    }
+
+    function startSequence() {
+      sequenceStarted = true;
+      startButton.style.display = 'none';
+      imageContainer.innerHTML = '';
+
+      const img = document.createElement('img');
+      img.src = imageBack;
+      img.classList.add('centered');
+      imageContainer.appendChild(img);
+
+      song.play();
+
+      timeoutHandle = setTimeout(() => {
+        img.src = imageFront;
+        img.classList.remove('centered');
+        img.classList.add('fullscreen');
+        imageContainer.style.backgroundColor = 'red';
+      }, 5100);
+    }
+
+    startButton.addEventListener('click', () => {
+      if (!sequenceStarted) startSequence();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.code === 'Space') {
+        if (!sequenceStarted) {
+          startSequence();
+        } else {
+          resetState();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
