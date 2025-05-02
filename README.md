@@ -5,3 +5,5 @@ space or click to start.
 space to restart once you've begun.
 
 lightweight; all-in-one HTML file long as you have assets folder in the same directory.
+
+!audio warning!
