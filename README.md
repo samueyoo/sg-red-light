@@ -6,4 +6,6 @@ space to restart once you've begun.
 
 lightweight; all-in-one HTML file long as you have assets folder in the same directory.
 
+planning on adding mobile QOLs next.
+
 **audio warning!**
