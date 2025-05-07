@@ -6,11 +6,11 @@ space to restart once you've begun.
 
 lightweight; all-in-one HTML file long as you have assets folder in the same directory.
 
-planning on adding mobile QOLs next.
-
 next version in works currently:
 - able to be restarted to start screen with "R"
 - hit space bar to continue to the next run (only once the current run/song ends)
 - displays current run number of the session
+
+planning on adding mobile QOLs next later down the line
 
 **audio warning!**
