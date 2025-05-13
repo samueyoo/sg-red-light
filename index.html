@@ -50,6 +50,7 @@
 <body>
   <input id="startButton" type="image" src="./assets/maskFinal.png" alt="Start Button">
   <div id="imageContainer"></div>
+  <!-- <div id="rCE"></div> -->
 
   <audio id="song" src="./assets/song.mp3"></audio>
 
@@ -57,15 +58,21 @@
     const startButton = document.getElementById('startButton');
     const imageContainer = document.getElementById('imageContainer');
     const song = document.getElementById('song');
+    // const runCounterElement = document.getElementById('rCE')
 
     const imageBack = './assets/yg_backFinal.png';
     const imageFront = './assets/yg_frontFinal.png';
 
     let sequenceStarted = false;
+    let runCounter = 0;
     let timeoutHandle;
 
-    function resetState() {
+    function resetState(cont = false) {
       sequenceStarted = false;
+      if (!cont) {
+        runCounter = 0;
+        console.log("runCounter reset: " + runCounter);
+      }
       clearTimeout(timeoutHandle);
       song.pause();
       song.currentTime = 0;
@@ -75,7 +82,10 @@
     }
 
     function startSequence() {
+      runCounter++;
       sequenceStarted = true;
+      console.log("runCounter after startSequence:" + runCounter);
+      runCounterElement.innerHTML = `Run #${runCounter}`;
       startButton.style.display = 'none';
       imageContainer.innerHTML = '';
 
@@ -84,6 +94,11 @@
       img.classList.add('centered');
       imageContainer.appendChild(img);
 
+      // const rCE = document.createElement('img');
+      // img.src = imageBack;
+      // img.classList.add('centered');
+      // imageContainer.appendChild(img);
+
       song.play();
 
       timeoutHandle = setTimeout(() => {
@@ -91,20 +106,27 @@
         img.classList.remove('centered');
         img.classList.add('fullscreen');
         imageContainer.style.backgroundColor = 'red';
+        sequenceStarted = false;
       }, 5100);
     }
 
     startButton.addEventListener('click', () => {
-      if (!sequenceStarted) startSequence();
+      if (!sequenceStarted) startSequence(); //beginning game state (only possible at Start Screen)
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.code === 'Space') {
-        if (!sequenceStarted) {
-          startSequence();
-        } else {
+      switch(event.code) {
+        case 'Space':
+          if (!sequenceStarted && runCounter === 0) { //beginning game state
+            startSequence();
+          } else if (!sequenceStarted && runCounter !== 0) { //if continuing game state
+            resetState(true);
+            startSequence();
+          }
+          break;
+        case 'KeyR': //completely reset game state
           resetState();
-        }
+          break;
       }
     });
   </script>
